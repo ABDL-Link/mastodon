@@ -31,5 +31,14 @@
 
     = yield :header_tags
 
+    - if google_analytics_id?
+      %script(src='https://www.googletagmanager.com/gtag/js?id=#{google_analytics_id}')
+
+      :javascript
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '#{google_analytics_id}');
+
   %body{ class: body_classes }
     = content_for?(:content) ? yield(:content) : yield

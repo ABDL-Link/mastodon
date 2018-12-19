@@ -5,6 +5,7 @@
 base_host     = Rails.configuration.x.web_domain
 assets_host   = Rails.configuration.action_controller.asset_host
 assets_host ||= "http#{Rails.configuration.x.use_https ? 's' : ''}://#{base_host}"
+google_analytics_id = ENV['GOOGLE_ANALYTICS_ID']
 
 Rails.application.config.content_security_policy do |p|
   p.base_uri        :none
@@ -24,7 +25,11 @@ Rails.application.config.content_security_policy do |p|
     p.script_src  :self, :unsafe_inline, :unsafe_eval, assets_host
   else
     p.connect_src :self, :blob, assets_host, Rails.configuration.x.streaming_api_base_url
-    p.script_src  :self, assets_host
+    if google_analytics_id
+      p.script_src  :self, :unsafe_inline, assets_host, 'https://www.googletagmanager.com', 'https://www.google-analytics.com/analytics.js'
+    else
+      p.script_src  :self, assets_host
+    end
   end
 end
 

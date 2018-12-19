@@ -97,4 +97,12 @@ module ApplicationHelper
   def storage_host?
     ENV['S3_ALIAS_HOST'].present? || ENV['S3_CLOUDFRONT_HOST'].present?
   end
+
+  def google_analytics_id
+    ENV['GOOGLE_ANALYTICS_ID']
+  end
+
+  def google_analytics_id?
+    google_analytics_id.present?
+  end
 end
